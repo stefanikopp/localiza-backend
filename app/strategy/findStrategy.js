@@ -1,4 +1,4 @@
-export class Strategy {
+const Strategy = class Strategy {
     constructor() {
         this.ecommerce = "";
     }

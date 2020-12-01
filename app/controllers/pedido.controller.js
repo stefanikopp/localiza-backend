@@ -1,48 +1,45 @@
-import Cliente from "../models/cliente.model.js";
-import Ecommerce from "../models/ecommerce.model.js";
-import { findAll } from "../models/pedido.model.js";
-import Produto from "../models/produto.model.js";
-import { Op as _Op } from 'sequelize';
-const Op = _Op
+const Cliente = require("../models/cliente.model.js");
+const Ecommerce = require("../models/ecommerce.model.js");
+const Pedido = require("../models/pedido.model.js");
+const Produto = require("../models/produto.model.js");
+const Sequelize = require('sequelize');
+const { where } = require("sequelize");
+const Op = Sequelize.Op
 
-export async function findAll(req, res) {
-  const pedidos = strategyFindAll({
-    include: [
-      { model: Cliente },
-      { model: Ecommerce },
-      { model: Produto },
-    ]
-  })
+exports.findAll = async (req, res) => {
+  const pedidos = await strategyFindAll({ include: [
+    { model: Cliente },
+    { model: Ecommerce },
+    { model: Produto },
+  ]})
 
   res.status(200).send(pedidos);
-}
+};
 
-export async function findByEcommerceName(req, res) {
-  const pedidos = strategyFindAll({
+exports.findByEcommerceName = async (req, res) => {
+  const pedidos = await strategyFindAll({ 
     include: [
-      { model: Cliente },
-      {
-        model: Ecommerce,
-        where: {
-          nome: {
-            [Op.startsWith]: req.params.name
-          }
+    { model: Cliente },
+    { model: Ecommerce, 
+      where: {
+        nome: {
+          [Op.startsWith]: req.params.name
         }
-      },
-      { model: Produto },
-    ],
-  })
+      }
+    },
+    { model: Produto },
+  ],
+})
 
   res.status(200).send(pedidos);
-}
+};
 
-export async function findByStatus(req, res) {
-  const pedidos = strategyFindAll({
-    include: [
-      { model: Cliente },
-      { model: Ecommerce },
-      { model: Produto },
-    ],
+exports.findByStatus = async (req, res) => {
+  const pedidos = await strategyFindAll({ include: [
+    { model: Cliente },
+    { model: Ecommerce },
+    { model: Produto },
+  ],
     where: {
       status: {
         [Op.like]: req.params.status
@@ -51,13 +48,12 @@ export async function findByStatus(req, res) {
   })
 
   res.status(200).send(pedidos);
-}
+};
 
 
 // implementação dos metodos vindo da classe Strategy
-var strategyFindAll = function(){
+const strategyFindAll = async function(){
   Strategy.findAll = function(){
-    return await findAll();
-  }
+  return Pedido.findAll()
+ }
 }
-
