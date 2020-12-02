@@ -1,4 +1,5 @@
 const Ecommerce = require("../models/ecommerce.model.js");
+const { parseAddress } = require("../adapter/ecommerce.adapter.js");
 
 exports.create = async (req, res) => {
   if (!req.body) {
@@ -6,9 +7,11 @@ exports.create = async (req, res) => {
   }
 
   try {
+    const endereco = await parseAddress(req.body.cep, req.body.numero)
+
     const ecommerceCriado = await Ecommerce.create({
       nome: req.body.nome,
-      endereco: req.body.endereco,
+      endereco: endereco,
       telefone: req.body.telefone
     })
 
