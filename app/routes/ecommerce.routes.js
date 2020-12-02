@@ -1,17 +1,14 @@
-const findAllStrategy = require("../strategy/findall.strategy.js");
-const findOneStrategy = require("../strategy/findone.strategy.js");
-const createStrategy = require("../strategy/create.strategy.js");
-
+const routesStrategy = require("../strategy/routes.strategy");
 
 module.exports = app => {
   const ecommerces = require("../controllers/ecommerce.controller.js");
 
   //app.post("/ecommerces", ecommerces.create);
-  createStrategy(app, ecommerces, "/ecommerces")
+  routesStrategy.create(app, ecommerces, "/ecommerces")
 
   //app.get("/ecommerces", ecommerces.findAll);
-  findAllStrategy(app, ecommerces, "/ecommerces")
+  routesStrategy.findall(app, ecommerces, "/ecommerces")
 
   //app.get("/ecommerces/:id", ecommerces.findOne);
-  findOneStrategy(app, ecommerces, "/ecommerces/:id")
+  routesStrategy.findone(app, ecommerces, "/ecommerces/:id")
 };
