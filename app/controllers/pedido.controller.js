@@ -16,7 +16,8 @@ exports.findAll = async (req, res) => {
   res.status(200).send(pedidos);
 };
 
-exports.findByEcommerceName = async (req, res) => {
+//filtra pedido por nome de ecommerce
+exports.findName = async (req, res) => {
   const pedidos = await Pedido.findAll({ 
     include: [
     { model: Cliente },
@@ -34,7 +35,8 @@ exports.findByEcommerceName = async (req, res) => {
   res.status(200).send(pedidos);
 };
 
-exports.findByStatus = async (req, res) => {
+//filtra pedido por status
+exports.findStatus = async (req, res) => {
   const pedidos = await Pedido.findAll({ include: [
     { model: Cliente },
     { model: Ecommerce },
@@ -49,4 +51,3 @@ exports.findByStatus = async (req, res) => {
 
   res.status(200).send(pedidos);
 };
-
