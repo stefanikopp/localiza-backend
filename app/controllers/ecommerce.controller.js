@@ -1,5 +1,4 @@
 const Ecommerce = require("../models/ecommerce.model.js");
-const Strategy = require ("../strategy/findStrategy.js");
 
 exports.create = async (req, res) => {
   if (!req.body) {
@@ -23,7 +22,7 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    const ecommerces = await strategyFindAll()
+    const ecommerces = await Ecommerce.findAll()
     res.status(200).send(ecommerces)
   } catch (error) {
     res.status(500).send({
@@ -34,7 +33,7 @@ exports.findAll = async (req, res) => {
 
 exports.findOne = async (req, res) => {
   try {
-    const ecommerce = await strategyFindOne(req.params.id)
+    const ecommerce = await Ecommerce.findByPk(req.params.id)
     res.status(200).send(ecommerce)
   } catch (error) {
     res.status(500).send({
@@ -42,17 +41,4 @@ exports.findOne = async (req, res) => {
     });
   }
 };
-
-// implementação dos metodos vindo da classe Strategy
-const strategyFindAll = async function(){
-    Strategy.findAll = function(){
-    return Ecommerce.findAll()
-   }
-}
-
-const strategyFindOne = async function(){
-  Strategy.findAll = function(id){
-   return Ecommerce.findByPk(id)
- }
-}
 

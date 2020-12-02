@@ -7,7 +7,7 @@ const { where } = require("sequelize");
 const Op = Sequelize.Op
 
 exports.findAll = async (req, res) => {
-  const pedidos = await strategyFindAll({ include: [
+  const pedidos = await Pedido.findAll({ include: [
     { model: Cliente },
     { model: Ecommerce },
     { model: Produto },
@@ -16,8 +16,9 @@ exports.findAll = async (req, res) => {
   res.status(200).send(pedidos);
 };
 
-exports.findByEcommerceName = async (req, res) => {
-  const pedidos = await strategyFindAll({ 
+//filtra pedido por nome de ecommerce
+exports.findName = async (req, res) => {
+  const pedidos = await Pedido.findAll({ 
     include: [
     { model: Cliente },
     { model: Ecommerce, 
@@ -34,8 +35,9 @@ exports.findByEcommerceName = async (req, res) => {
   res.status(200).send(pedidos);
 };
 
-exports.findByStatus = async (req, res) => {
-  const pedidos = await strategyFindAll({ include: [
+//filtra pedido por status
+exports.findStatus = async (req, res) => {
+  const pedidos = await Pedido.findAll({ include: [
     { model: Cliente },
     { model: Ecommerce },
     { model: Produto },
@@ -49,11 +51,3 @@ exports.findByStatus = async (req, res) => {
 
   res.status(200).send(pedidos);
 };
-
-
-// implementação dos metodos vindo da classe Strategy
-const strategyFindAll = async function(){
-  Strategy.findAll = function(){
-  return Pedido.findAll()
- }
-}
